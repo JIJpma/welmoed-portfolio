@@ -128,6 +128,15 @@
   });
   box.addEventListener("close", () => { boxImg.removeAttribute("src"); });
 
+  /* Email: stored reversed as "domain|user" so the plain address isn't in the HTML */
+  document.querySelectorAll("[data-mail]").forEach((link) => {
+    const [domain, user] = link.dataset.mail.split("|").map((part) => [...part].reverse().join(""));
+    const address = `${user}@${domain}`;
+    link.href = `mailto:${address}`;
+    link.textContent = address;
+    link.removeAttribute("data-mail");
+  });
+
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = new Date().getFullYear();
 })();
